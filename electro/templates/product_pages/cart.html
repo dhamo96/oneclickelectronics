@@ -1,0 +1,243 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+
+<!-- breadcrumb-area start -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-12 text-center">
+                <h2 class="breadcrumb-title">Cart</h2>
+                <!-- breadcrumb-list start -->
+                <ul class="breadcrumb-list">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item active">Cart</li>
+                </ul>
+                <!-- breadcrumb-list end -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb-area end -->
+{% if cart_count < 1 %} <!-- Empty Cart area start -->
+    <div class="empty-cart-area pb-100px pt-100px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="cart-heading">
+                        <h2>Your cart item</h2>
+                    </div>
+                    <div class="empty-text-contant text-center">
+                        <i class="pe-7s-shopbag"></i>
+                        <h3>There are no more items in your cart</h3>
+                        <a class="empty-cart-btn" href="{% url 'home' %}">
+                            <i class="fa fa-arrow-left"> </i> Continue shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Empty Cart area end -->
+    {% else %}
+    <!-- Cart Area Start -->
+    <div class="cart-main-area pt-100px pb-100px">
+        <div class="container">
+            <h3 class="cart-page-title">Your cart items</h3>
+            {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger ">
+                {{message}}
+            </div>
+            {% else %}
+            <div class="alert alert-success ">
+                {{message}}
+            </div>
+            {% endif %}
+            {% endfor %}
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <form action="#">
+                        <div class="table-content table-responsive cart-table-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Product Name</th>
+                                        <th>Until Price</th>
+                                        <th>Qty</th>
+                                        <th>Subtotal</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    {% for i in cart_id %}
+                                    <tr class="border">
+                                        <td class="product-thumbnail">
+                                            <a href="{% url 'product-view' pk=i.product_Id.id %}"><img
+                                                    class="img-responsive ml-15px"
+                                                    src="{{i.product_Id.product_pic.url}}" alt="" /></a>
+                                        </td>
+                                        <td class="product-name"><a
+                                                href="{% url 'product-view' pk=i.product_Id.id %}">{{i.product_Id.product_name}}</a>
+                                        </td>
+                                        <td class="product-price-cart"><span class="amount"><i class="fa fa-inr"
+                                                    aria-hidden="true"></i> {{i.product_Id.price}}</span></td>
+
+
+                                         <td class="product-quantity">
+                                            
+                                            <div class="qyt-form" id="qty">
+
+                                               {% csrf_token %}
+                                                <input type="hidden" name="product" value="{{i.product_Id.id}}"
+                                                    class="product_id">
+                                                <input type="number" name="qty" value="{{i.quantity}}"  data-qty="{{i.quantity}}" data-price="{{i.product_Id.price}}" min=1 max={{i.product_Id.qty}}
+                                                    class="qtychange">
+
+                                            </div>
+                                        </td> 
+                                        <td class="product-subtotal"><i class="fa fa-inr" aria-hidden="true"></i>
+                                            <span id="{{i.product_Id.id}}">{{i.price}}</span>
+                                        </td>
+                                        <td class="product-remove">
+                                            <a href="#"><i class="fa fa-pencil"></i></a>
+                                            <a href="{% url 'delete-cart-product' pk=i.id %}"><i
+                                                    class="fa fa-times"></i></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="cart-shiping-update-wrapper">
+                                    <div class="cart-shiping-update">
+                                        <a href="#">Continue Shopping</a>
+                                    </div>
+                                    <div class="cart-clear">
+                                        <button>Update Shopping Cart</button>
+                                        <a href="{% url 'clear-shopping-cart' %}">Clear Shopping Cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 mb-lm-30px">
+                            <!-- <div class="cart-tax">
+                                <div class="title-wrap">
+                                    <h4 class="cart-bottom-title section-bg-gray">Estimate Shipping And Tax</h4>
+                                </div>
+                                <div class="tax-wrapper">
+                                    <p>Enter your destination to get a shipping estimate.</p>
+                                    <div class="tax-select-wrapper">
+                                        <div class="tax-select">
+                                            <label>
+                                                * Country
+                                            </label>
+                                            <select class="email s-email s-wid">
+                                                <option>Bangladesh</option>
+                                                <option>Albania</option>
+                                                <option>Åland Islands</option>
+                                                <option>Afghanistan</option>
+                                                <option>Belgium</option>
+                                            </select>
+                                        </div>
+                                        <div class="tax-select">
+                                            <label>
+                                                * Region / State
+                                            </label>
+                                            <select class="email s-email s-wid">
+                                                <option>Bangladesh</option>
+                                                <option>Albania</option>
+                                                <option>Åland Islands</option>
+                                                <option>Afghanistan</option>
+                                                <option>Belgium</option>
+                                            </select>
+                                        </div>
+                                        <div class="tax-select mb-25px">
+                                            <label>
+                                                * Zip/Postal Code
+                                            </label>
+                                            <input type="text" />
+                                        </div>
+                                        <button class="cart-btn-2" type="submit">Get A Quote</button>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-lm-30px">
+                            <!-- <div class="discount-code-wrapper">
+                                <div class="title-wrap">
+                                    <h4 class="cart-bottom-title section-bg-gray">Use Coupon Code</h4>
+                                </div>
+                                <div class="discount-code">
+                                    <p>Enter your coupon code if you have one.</p>
+                                    <form>
+                                        <input type="text" required="" name="name" />
+                                        <button class="cart-btn-2" type="submit">Apply Coupon</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div> -->
+                        </div>
+                        <div class="col-lg-4 col-md-12 mt-md-30px">
+                            <div class="grand-totall totalPrice">
+                                <div class="title-wrap">
+                                    <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
+                                </div>
+                                <h5>Total products <span><i class="fa fa-inr" aria-hidden="true"></i><span class="total_price"> {{total_price}}</span></span></h5>
+                                <div class="total-shipping">
+                                    <h5>Total shipping</h5>
+                                    <ul>
+                                        <li><input type="checkbox" /> Standard <span><i class="fa fa-inr"
+                                                    aria-hidden="true"></i> 20.00</span></li>
+                                        <li><input type="checkbox" /> Express <span><i class="fa fa-inr"
+                                                    aria-hidden="true"></i> 30.00</span></li>
+                                    </ul>
+                                </div>
+                                <h4 class="grand-totall-title totalPrice">Grand Total <span><i class="fa fa-inr"
+                                            aria-hidden="true"></i><span class="total_price"> {{total_price}}</span></span></h4>
+                                <a href="{% url 'checkout' %}">Proceed to Checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cart Area End -->
+
+    {% endif %}
+   
+   <script>
+        $(".qtychange").click(function () {
+            var product_id = $(this).closest(".border").find(".product_id").val();
+            console.log(product_id);
+            var qty = $(this).closest(".border").find(".qtychange").val();
+            console.log(qty);
+            var token = $('input[name=csrfmiddlewaretoken]').val();
+
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'update_qty' %}",
+                data: {
+                    'product_id': product_id,
+                    'product_qty': qty,
+                    csrfmiddlewaretoken: token,
+                },
+                success: function (data) {
+                    // $(".total_price{{i.id}}").html(data.total);
+                    $("#"+product_id).html(data.total);
+                    //alert(data.total);
+                    //alert(data.total_price);
+                    $(".total_price").html(data.total_price);
+                }
+            });
+        });
+
+    </script>
+
+    {% endblock %}

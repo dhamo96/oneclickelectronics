@@ -1,0 +1,74 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<div class="content-page">
+    <div class="container-fluid">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success ">
+            <strong>Success!</strong> {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" style="background-color: #fff !important;">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}"><i
+                            class="ri-home-4-line mr-1 float-left"></i>Home</a>
+                </li>
+                <li class="breadcrumb-item"><i class="mr-1 float-left"></i>Customers</li>
+            </ol>
+        </nav>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
+                    <div>
+                        <h4 class="mb-3">Customer List</h4>
+                    </div>
+                    <a href="{% url 'product-upload' %}" class="btn btn-primary add-list"><img
+                            src="{% static 'assets/images/plus.png' %}" width="25" style="margin: 0px 5px 0px 0;">
+                        Add Customer</a>
+                </div>
+                <div class="col-lg-12">
+                    <div class="table-responsive rounded mb-3">
+                        <table class="table table-bordered">
+                            <thead class="bg-dark text-uppercase text-center">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Mobile Number</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">Profile Image</th>
+                                    <th scope="col-2" colspan="2">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="ligth-body">
+                                {% for i in customers %}
+                                <tr>
+                                    <td>{{i.first_name}} {{i.last_name}}</td>
+                                    <td>{{i.email}}</td>
+                                    <td>{{i.mobile_number}}</td>
+                                    <td>{{i.age}}</td>
+                                    {% if i.profile_pic %}
+                                    <td><img src="{{i.profile_pic.url}} " height="100" width="100"></td>
+                                    {% else %}
+                                    <td><img src="{% static 'assets/images/placeholder.png' %}" alt="Sorry" height="100"
+                                            width="100"></td>
+                                    {% endif %}
+                                    <td>
+                                        <div class="d-flex align-items-center list-action">
+                                            <a class="btn btn-primary text-uppercase" href="{% url 'customer-view' pk=i.id %}">View</a>
+                                            <a class="btn btn-warning text-uppercase" href="{% url 'customer_delete' pk=i.id %}"
+                                                style="margin: 0 0 0 10px;">Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

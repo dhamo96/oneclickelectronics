@@ -1,0 +1,244 @@
+{% extends 'adminPanel/adminHome.html' %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header" style="margin-top: 100px;">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>View Retailer's Profile</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{% url 'adminhome' %}">Home</a></li>
+              <li class="breadcrumb-item active">Retailer's Profile</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-3">
+  
+              <!-- Profile Image -->
+              <div class="card card-primary card-outline">
+                <div class="card-body box-profile">
+                  <div class="text-center">
+                    <img class="profile-user-img img-fluid img-circle"
+                         src="{{rid.adminProfile_pic.url}}"
+                         alt="User profile picture">
+                  </div>
+  
+                  <h3 class="profile-username text-center">{{rid.firstname}} {{rid.lastname}}</h3>
+  
+                  <p class="text-muted text-center">{{rid.email}}</p>
+  
+                  <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item">
+                      <b>Total Orders</b> <a class="float-right">{{order_count}}</a>
+                    </li>
+                    <li class="list-group-item">
+                      <b>Total Products</b> <a class="float-right">{{total_product}}</a>
+                    </li>
+                    <li class="list-group-item">
+                      <b>Today's Collection</b> <a class="float-right">{{todays_collection}}</a>
+                    </li>
+                    <li class="list-group-item">
+                      <b>Total Collection</b> <a class="float-right">{{total_collection}}</a>
+                    </li>
+                  </ul>
+  
+                  <a href="#" class="btn btn-primary btn-block"><b>Edit Details</b></a>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+  
+              <!-- About Me Box -->
+              
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+              <div class="card">
+                <div class="card-header p-2">
+                  <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#personal_details" data-toggle="tab">Personal Details</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#shop_details" data-toggle="tab">Shop Details</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#products" data-toggle="tab">List of Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#orders" data-toggle="tab">List of Orders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#payment_history" data-toggle="tab">Payment History</a></li>
+                    {% if sid.owner_id_proof and sid.elc_bill %}
+                    <li class="nav-item"><a class="nav-link" href="#feedback" data-toggle="tab">Id Proof</a></li>
+                    {% endif %}
+                    
+
+                  </ul>
+                </div><!-- /.card-header -->
+                <div class="card-body">
+                  <div class="tab-content">
+                    <div class="active tab-pane" id="personal_details">
+                      <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                          <b>Name</b> <a class="float-right">{{rid.adminName}}&nbsp;{{rid.adminLastName}}</a>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Email ID</b> <a class="float-right">{{rid.adminEmail}}</a>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Phone Number</b> <a class="float-right">{{rid.adminPhone}}</a>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Gender</b> <a class="float-right">{{rid.gender}}</a>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Status</b> <a class="float-right">{{rid.status}}</a>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Address</b> <a class="float-right">{{rid.home_address}},<br>{{rid.home_city}},<br>{{rid.home_state}},<br>{{rid.home_pincode}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="tab-pane" id="shop_details">
+                      <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                          <b>Shop Name</b> <a class="float-right">{{sid.shop_name}}</a>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Shop Type</b> <a class="float-right">{{sid.shop_type}}</a>
+                        </li>
+                        <li class="list-group-item">
+                          <b>Address</b> <a class="float-right">{{sid.shop_address}},<br>{{sid.shop_city}},<br>{{sid.shop_state}},<br>{{sid.shop_pincode}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- /.tab-pane -->
+  
+                    <div class="tab-pane" id="products">
+                      <table class="table table-bordered">
+                        <thead class="bg-dark text-uppercase text-center">
+                            <tr>
+                                <th scope="col">
+                                    ID
+                                </th>
+                                <th scope="col">
+                                    Product Name
+                                </th>
+                                <th scope="col">
+                                  Quantity
+                              </th>
+                                <th scope="col">
+                                    Price
+                                </th>
+                                <th scope="col">
+                                  Action
+                                </th>
+                            </tr>
+                        </thead>
+                            <tbody class="ligth-body text-center">
+                              {% for i in pid %}
+                                <tr>
+                                    <td>
+                                        {{i.id}}
+                                    </td>
+                                    <td>
+                                        {{i.product_name}} 
+                                        <br/>
+                                    </td>
+                                    <td>
+                                       {{i.qty}} 
+                                        
+                                    </td>
+                                    <td >
+                                        {{i.price}}
+                                    </td>
+                                    <td>
+                                      <div class="d-flex align-items-center list-action">
+                                        <a href="{% url 'admin_view_product' pk=i.id %}" title="View Product"><img src="{% static 'assets/view.jpg' %}" height="25" width="25"></a>
+                                        <a href="{% url 'admin_delete_product' pk=i.id %}" title="Delete Product"
+                                          style="margin: 0 0 0 20px;"><img src="{% static 'assets/delete.png' %}" height="25" width="25"></a>
+                                      </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                    </table>
+                    </div>
+                    <div class="tab-pane" id="orders">
+                      <table class="table table-striped projects">
+                        <thead>
+                            <tr>
+                                <th style="width: 1%" class="text-center">
+                                  Customer Name
+                                </th>
+                                <th style="width: 30%" class="text-center">
+                                    Product Name
+                                </th>
+                                <th style="width: 8%" class="text-center">
+                                    Price
+                                </th>
+    
+                              <th style="width: 30%" class="text-center">
+                                 Quantity
+                            </th>
+                            </tr>
+                        </thead>
+                        {% for i in order_rid %}
+    
+                        <tbody>
+                          <tr>
+                              <td class="text-center">
+                                  {{i.customer_id.first_name}}
+                              </td>
+                              <td class="text-center">
+                                  {{i.product_Id.product_name}} 
+                                  <br/>
+                              </td>
+                              <td class="text-center">
+                                  {{i.price}}
+                              </td>
+                              <td class="text-center">
+                                <a href="#">{{i.quantity}}</a>
+                            </td>
+                            
+                          </tr>
+                      </tbody>
+                    {% endfor %}
+                      </table>
+                    </div>
+                    <div class="tab-pane" id="payment_history">
+                    </div>
+                    {% if sid.owner_id_proof and sid.elc_bill %}
+                    <div class="tab-pane" id="feedback">
+                      <div class="row" >
+                        <div class="col-md-6">
+                          Id Proof<br/>
+                          <img class="img-responsive pad" src="{{sid.owner_id_proof.url}}" alt="Photo" height="100%" width="100%">
+                        </div>
+                        <div class="col-md-6">
+                          Electricity Bill<br/>
+                          <img class="img-responsive pad" src="{{sid.elc_bill.url}}" alt="Photo" height="100%" width="100%">
+                        </div>
+                    </div>
+                    {% endif %}
+                    <!-- /.tab-pane -->
+                  </div>
+                  <!-- /.tab-content -->
+                </div><!-- /.card-body -->
+              </div>
+              <!-- /.nav-tabs-custom -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  {% endblock %}

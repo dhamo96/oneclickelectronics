@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<div class="content-page">
+    <div class="container-fluid add-form-list">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">Upload Product Images</h4>
+                        </div>
+                    </div>
+                    {% if messages %}
+						{% for message in messages %}
+							<div class="alert alert-success " style="width: 100%;margin-top: 15px;">
+								<strong>Success!</strong> {{message}}
+							</div>
+						{% endfor %}
+					{% endif %}
+                    <div class="card-body">
+                        <form action="{% url 'product-photo' pk=product.id %}" method="POST"
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Image</label>
+                                        <input type="file" class="form-control image-file" name="product_image"
+                                            accept="image/*" multiple>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mr-2">Save Images</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page end  -->
+    </div>
+</div>
+{% endblock content %}

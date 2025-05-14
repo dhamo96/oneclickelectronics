@@ -1,0 +1,78 @@
+{% extends 'adminPanel/adminHome.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header" style="margin-top: 100px;">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>View Customers Notifications</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'adminhome' %}">Home</a></li>
+                        <li class="breadcrumb-item active">Notifications</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Notifications</h3>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-bordered">
+                    <thead class="bg-dark text-uppercase text-center">
+                        <tr>
+                            <th scope="col">
+                                ID
+                            </th>
+                            <th scope="col">
+                                Name
+                            </th>
+                            <th scope="col">
+                                Email ID
+                            </th>
+                            <th scope="col">
+                                Phone Number
+                            </th>
+                            <th scope="col">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                        <tbody class="ligth-body text-center">
+                            {% for i in cid %}
+                            <tr>
+                                <td>
+                                    {{i.id}}
+                                </td>
+                                <td style="text-align: center;">
+                                    {{i.first_name}}&nbsp;{{i.last_name}} 
+                                    <br/>
+                                </td>
+                                <td style="text-align: center;">
+                                  {{i.email}} 
+                                </td>
+                                <td style="text-align: center;">
+                                    {{i.mobile_number}} 
+                                  </td>
+                                <td class="project-actions ">
+                                    <a class="btn btn-primary btn-sm" href="{% url 'admin_view_customer_profile' pk=i.id %}">
+                                        <i class="fas fa-folder">
+                                        </i>
+                                        View Profile
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                </table>
+            </div>
+    </section>
+</div>
+{% endblock %}

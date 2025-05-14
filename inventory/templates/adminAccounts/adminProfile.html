@@ -1,0 +1,625 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header" style="margin-top: 100px;">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-3">
+          <h1>Profile</h1>
+        </div>
+        <div class="col-sm-6">
+        {% if msg %}
+        
+          <div class="alert alert-success" role="alert">
+            {{msg}}
+          </div>
+        {% elif errmsg %}
+        
+        <div class="alert alert-danger" role="alert">
+          {{errmsg}}
+        </div>
+      
+        {% endif %}
+      </div>
+        <div class="col-sm-3"> 
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">User Profile</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+
+          <!-- Profile Image -->
+          <div class="card card-primary card-outline">
+            <div class="card-body box-profile">
+              <div class="text-center">
+                <img class="profile-user-img img-fluid img-circle" src="{{user.adminProfile_pic.url}}"
+                  alt="User profile picture">
+              </div>
+
+              <h3 class="profile-username text-center">{{user.adminName}} {{user.adminLastName}}</h3>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+
+          <!-- About Me Box -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">About Me</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <strong><i class="fas fa-book mr-1"></i> Education</strong>
+
+              <p class="text-muted">
+                B.S. in Computer Science from the University of Tennessee at Knoxville
+              </p>
+
+              <hr>
+
+              <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+
+              <p class="text-muted">Malibu, California</p>
+
+              <hr>
+
+              <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
+
+              <p class="text-muted">
+                <span class="tag tag-danger">UI Design</span>
+                <span class="tag tag-success">Coding</span>
+                <span class="tag tag-info">Javascript</span>
+                <span class="tag tag-warning">PHP</span>
+                <span class="tag tag-primary">Node.js</span>
+              </p>
+
+              <hr>
+
+              <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+
+              <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.
+              </p>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <div class="col-md-9">
+          <!-- /.card -->
+          <div class="card">
+            <div class="card-header p-2">
+              <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link active" href="#personal_details" data-toggle="tab">Personal
+                    Details</a></li>
+                <li class="nav-item"><a class="nav-link" href="#shop_details" data-toggle="tab">Shop details</a></li>
+                <li class="nav-item"><a class="nav-link" href="#orders" data-toggle="tab">List of Orders</a></li>
+                <li class="nav-item"><a class="nav-link" href="#change_password" data-toggle="tab">Change Password</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#change_profile_picture" data-toggle="tab">Change Profile
+                    <picture></picture>
+                  </a></li>
+              </ul>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+              <div class="tab-content">
+                {% if not user.adminName %}
+                <div class="active tab-pane" id="personal_details">
+                  <form action="{% url 'adminProfile' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputName">First Name</label>
+                          <input type="text" name='firstname' class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputName">Last Name</label>
+                          <input type="text" name='lastname' class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputName">Email Id</label>
+                          <input type="email" name='email' class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputName">Profile Status</label>
+                          <input type="email" name='status' class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputName">Phone Number</label>
+                          <input type="text" name='phonenumber' class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputStatus">Gender</label>
+                          <select class="form-control custom-select" name='gender'>
+                            <option selected name='gender'>Select your gender</option>
+                            <option name='gender' value='Male'>Male</option>
+                            <option name='gender' value='Female'>Female</option>
+                            <option name='gender' value='Other'>Other</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <label for="inputClientCompany">----Address----</label>
+                    <hr>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">Home Number/Landmark</label>
+                          <input type="text" name='rlandmark' class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">City</label>
+                          <input type="text" name='rcity' class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">State</label>
+                          <input type="text" name='rstate' class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">Country</label>
+                          <input type="text" name='rcountry' class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">Pincode</label>
+                          <input type="text" name='rpincode' class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <input type="submit" value="Submit Details" class="btn btn-success float-right">
+                      </div>
+                    </div>
+                  </form>
+
+                </div>
+                {% else %}
+                <div class="active tab-pane" id="personal_details">
+                  <form action="{% url 'adminProfile' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputName">First Name</label>
+                          <input type="text" name='firstname' value="{{user.adminName}}" class="form-control" readonly>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputName">Last Name</label>
+                          <input type="text" name='lastname' value='{{user.adminLastName}}' class="form-control"
+                            readonly>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputName">Email Id</label>
+                          <input type="email" name='email' value='{{user.adminEmail}}' class="form-control" readonly>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputName">Profile Status</label>
+                          <input type="email" name='status' value='{{user.status}}' class="form-control" readonly>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputName">Phone Number</label>
+                          <input type="text" name='phonenumber' class="form-control" value="{{user.adminPhone}}">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputStatus">Gender</label>
+                          <select class="form-control custom-select" name='gender'>
+                            <option selected aria-readonly="true" value="{{user.gender}}" name='gender'>{{user.gender}}
+                            </option>
+                            <option name='gender' value='Male'>Male</option>
+                            <option name='gender' value='Female'>Female</option>
+                            <option name='gender' value='Other'>Other</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <label for="inputClientCompany">----Address----</label>
+                    <hr>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">Home Number/Landmark</label>
+                          <input type="text" name='rlandmark' class="form-control" value="{{user.home_address}}">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">City</label>
+                          <input type="text" name='rcity' class="form-control" value="{{user.home_city}}">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">State</label>
+                          <input type="text" name='rstate' class="form-control" value="{{user.home_state}}">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">Country</label>
+                          <input type="text" name='rcountry' class="form-control" value="{{user.home_country}}">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">Pincode</label>
+                          <input type="text" name='rpincode' class="form-control" value="{{user.home_pincode}}">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+
+                        <input type="submit" value="Submit Details" class="btn btn-success float-right">
+                      </div>
+                    </div>
+                  </form>
+
+                </div>
+                {% endif %}
+                <!-- /.tab-pane -->
+                {% if not sid.shop_name %}
+                <div class="tab-pane" id="shop_details">
+                  <form action="{% url 'shop-detail' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="inputEstimatedBudget">Shop Name</label>
+                          <input type="text" name='shopname' class="form-control" value="{{sid.shop_name}}">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="inputSpentBudget">Shop Type</label>
+                          <input type="text" name='shoptype' class="form-control" value="{{sid.shop_type}}">
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <label for="inputClientCompany">----Documents----</label>
+                    <hr>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="inputEstimatedBudget">Id Proof of Owner</label>
+                          <input type="file" name='idproof' class="form-control" value="{{sid.owner_id_proof}}">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="inputSpentBudget">Electricity Bill of shop </label>
+                          <input type="file" name='ebill' class="form-control" value="{{sid.elc_bill}}">
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <label for="inputClientCompany">----Address----</label>
+                    <hr>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">Shop Number/Landmark</label>
+                          <input type="text" name='slandmark' class="form-control" value="{{sid.shop_address}}">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">Country</label>
+                          <input type="text" name='scountry' class="form-control" value="{{sid.shop_country}}">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">State</label>
+                          <input type="text" name='sstate' class="form-control" value="{{sid.shop_state}}">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">City</label>
+                          <input type="text" name='scity' class="form-control" value="{{sid.shop_city}}">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">Pincode</label>
+                          <input type="text" name='spincode' class="form-control" value="{{sid.shop_pincode}}">
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+
+                        <input type="submit" value="Submit Details" class="btn btn-success float-right">
+                      </div>
+                    </div>
+                  </form>
+                  <!-- /.tab-pane -->
+                  <!-- /.tab-pane -->
+                </div>
+                {% else %}
+                <div class="tab-pane" id="shop_details">
+                  <form action="{% url 'shop-detail' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="inputEstimatedBudget">Shop Name</label>
+                          <input type="text" name='shopname' class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="inputSpentBudget">Shop Type</label>
+                          <input type="text" name='shoptype' class="form-control" >
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <label for="inputClientCompany">----Documents----</label>
+                    <hr>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="inputEstimatedBudget">Id Proof of Owner</label>
+                          <input type="file" name='idproof' class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="inputSpentBudget">Electricity Bill of shop </label>
+                          <input type="file" name='ebill' class="form-control" >
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <label for="inputClientCompany">----Address----</label>
+                    <hr>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">Shop Number/Landmark</label>
+                          <input type="text" name='slandmark' class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">Country</label>
+                          <input type="text" name='scountry' class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">State</label>
+                          <input type="text" name='sstate' class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">City</label>
+                          <input type="text" name='scity' class="form-control" >
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="inputClientCompany">Pincode</label>
+                          <input type="text" name='spincode' class="form-control">
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+
+                        <input type="submit" value="Submit Details" class="btn btn-success float-right">
+                      </div>
+                    </div>
+                  </form>
+                  <!-- /.tab-pane -->
+                  <!-- /.tab-pane -->
+                </div>
+                {% endif %}
+
+                <div class="tab-pane" id="orders">
+                  <table class="table table-striped projects">
+                    <thead>
+                        <tr>
+                            <th style="width: 1%" class="text-center">
+                              Customer Name
+                            </th>
+                            <th style="width: 30%" class="text-center">
+                                Product Name
+                            </th>
+                            <th style="width: 8%" class="text-center">
+                                Price
+                            </th>
+
+                          <th style="width: 30%" class="text-center">
+                             Quantity
+                        </th>
+                        </tr>
+                    </thead>
+                    {% for i in order_rid %}
+
+                    <tbody>
+                      <tr>
+                          <td class="text-center">
+                              {{i.customer_id.first_name}}
+                          </td>
+                          <td class="text-center">
+                              {{i.product_Id.product_name}} 
+                              <br/>
+                          </td>
+                          <td class="text-center">
+                              {{i.price}}
+                          </td>
+                          <td class="text-center">
+                            <a href="#">{{i.quantity}}</a>
+                        </td>
+                        
+                      </tr>
+                  </tbody>
+                {% endfor %}
+                  </table>
+                </div>
+
+                <div class="tab-pane" id="change_password">
+                  <form action="{% url 'retailer-update-password' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="inputName">Current Password</label>
+                          <input type="password" name='currentpassword' class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="inputName">New Password</label>
+                          <input type="password" name='newpassword' class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="inputName">Retype New Password</label>
+                          <input type="password" name='retypenewpassword' class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <input type="submit" value="Change Password" class="btn btn-success float-right">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                {% if not user.adminName %}
+                <div class="tab-pane" id="change_profile_picture">
+                  <form action="{% url 'retailer-change-profile-picture' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="container">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Upload Image</label>
+                          <div class="input-group">
+                            <span class="input-group-btn">
+                              <span class="btn btn-default btn-file">
+                                Browse… <input type="file" id="imgInp" name='picture'>
+                              </span>
+                            </span>
+                            <input type="text" class="form-control" readonly>
+                          </div>
+                          <img id='img-upload' />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <input type="submit" value="Change Profile Picture" class="btn btn-success float-right">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                {% else %}
+                <div class="tab-pane" id="change_profile_picture">
+                  <form action="{% url 'retailer-change-profile-picture' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="container">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Upload Image</label>
+                          <div class="input-group">
+                            <span class="input-group-btn">
+                              <span class="btn btn-default btn-file">
+                                Browse… <input type="file" id="imgInp" name='picture'>
+                              </span>
+                            </span>
+                            <input type="text" class="form-control" readonly>
+                          </div>
+                          <img src="{{user.adminProfile_pic.url}}" width="150" style="margin-top: 20px;">
+                          <img id='img-upload' />
+                         
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <input type="submit" value="Change Profile Picture" class="btn btn-success float-right">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <!-- /.tab-content -->
+                {% endif %}
+              </div><!-- /.card-body -->
+            </div>
+          </div>
+          <!-- /.col -->
+
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock content %}

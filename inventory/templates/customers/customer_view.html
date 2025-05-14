@@ -1,0 +1,85 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<div class="content-page">
+    <div class="container-fluid add-form-list">
+        <div class="row">
+            <div class="col-sm-12">
+                {% if success %}
+                <div class="alert alert-success" role="alert">
+                    {{success}}
+                </div>
+                {% endif %}
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">Customer Detail</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'account' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="lable">Firstname *</label>
+                                        <input type="text" name="fname" value="{{customers.first_name}}"
+                                            class="form-control" readonly>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="lable">Lastname *</label>
+                                        <input type="text" name="lname" value="{{customers.last_name}}"
+                                            class="form-control" readonly>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="lable">Email *</label>
+                                        <input type="text" name="uemail" value="{{customers.email}}" readonly="true"
+                                            class="form-control" readonly>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="lable">Mobile No *</label>
+                                        <input type="text" name="phone" value="{{customers.mobile_number}}"
+                                            class="form-control" readonly>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="lable">Age *</label>
+                                        <input type="text" name="age" value="{{customers.age}}" class="form-control"
+                                        readonly>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="lable">Address *</label>
+                                        <textarea name="address" class="form-control" readonly>{{customers.address}}</textarea>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="lable">Profile Image</label>
+                                        <input type="file" class="form-control image-file" name="profilepic" readonly>
+                                    </div>
+                                    <img src="{{customers.profile_pic.url}}" width="150">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

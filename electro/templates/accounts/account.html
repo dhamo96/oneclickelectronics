@@ -1,0 +1,352 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<!-- breadcrumb-area start -->
+<div class="breadcrumb-area">
+	<div class="container">
+		<div class="row align-items-center justify-content-center">
+			<div class="col-12 text-center">
+				<h2 class="breadcrumb-title">Account</h2>
+				<!-- breadcrumb-list start -->
+				<ul class="breadcrumb-list">
+					<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+					<li class="breadcrumb-item active">Account</li>
+				</ul>
+				<!-- breadcrumb-list end -->
+			</div>
+		</div>
+	</div>
+</div>
+<!-- breadcrumb-area end -->
+<!-- account area start -->
+<div class="account-dashboard pt-100px pb-100px">
+	{% for message in messages %}
+	{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+	<div class="alert alert-danger " style="margin: 0px 55px 10px 85px;">
+		{{message}}
+	</div>
+	{% else %}
+	<div class="alert alert-success " style="margin: 0px 55px 10px 85px;">
+		{{message}}
+	</div>
+	{% endif %}
+	{% endfor %}
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-3 col-lg-3">
+				<!-- Nav tabs -->
+				<div class="dashboard_tab_button" data-aos="fade-up" data-aos-delay="0">
+					<ul role="tablist" class="nav flex-column dashboard-list">
+						<li><a href="#dashboard" data-bs-toggle="tab" class="nav-link active">Dashboard</a></li>
+						<li> <a href="#orders" data-bs-toggle="tab" class="nav-link">Orders</a></li>
+						<li><a href="#downloads" data-bs-toggle="tab" class="nav-link">Downloads</a></li>
+						<li><a href="#address" data-bs-toggle="tab" class="nav-link">Addresses</a></li>
+						<li><a href="#account-details" data-bs-toggle="tab" class="nav-link">Account details</a>
+						</li>
+						<li><a href="#change-password" data-bs-toggle="tab" class="nav-link">Change Password</a>
+						</li>
+						<li><a href="{% url 'logout' %}" class="nav-link">logout</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-sm-12 col-md-9 col-lg-9">
+				<!-- Tab panes -->
+				<div class="tab-content dashboard_content" data-aos="fade-up" data-aos-delay="200">
+					<div class="tab-pane fade show active" id="dashboard">
+						<h4>Dashboard </h4>
+						<p>From your account dashboard. you can easily check &amp; view your <a href="#">recent
+								orders</a>, manage your <a href="#">shipping and billing addresses</a> and <a
+								href="#">Edit your password and account details.</a></p>
+					</div>
+					<div class="tab-pane fade" id="orders">
+						<h4>Orders</h4>
+						<div class="table_page table-responsive">
+							<table>
+								<thead>
+									<tr>
+										<th>Order</th>
+										<th>Date</th>
+										<th>Quantity</th>
+										<th>Total</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for i in order_details %}
+									<tr>
+										<td>{{i.product_Id.product_name}}</td>
+										<td>{{i.date}}</td>
+										<td><span class="success">{{i.quantity}}</span></td>
+										<td>{{i.price}}  </td>
+										<td><a href="cart.html" class="view">view</a></td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="downloads">
+						<h4>Downloads</h4>
+						<div class="table_page table-responsive">
+							<table>
+								<thead>
+									<tr>
+										<th>Product</th>
+										<th>Downloads</th>
+										<th>Expires</th>
+										<th>Download</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Shopnovilla - Free Real Estate PSD Template</td>
+										<td>May 10, 2018</td>
+										<td><span class="danger">Expired</span></td>
+										<td><a href="#" class="view">Click Here To Download Your File</a></td>
+									</tr>
+									<tr>
+										<td>Organic - ecommerce html template</td>
+										<td>Sep 11, 2018</td>
+										<td>Never</td>
+										<td><a href="#" class="view">Click Here To Download Your File</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane" id="address">
+						<p>The following addresses will be used on the checkout page by default.</p>
+						<h5 class="billing-address">Billing address</h5>
+						<a href="#account-details" class="view">Edit</a>
+						<p class="mb-2" style="font-weight:600;"><strong>{{user.first_name}} {{user.last_name}}</strong>
+						</p>
+						<address>
+							<span class="mb-1 d-inline-block"><strong>City:</strong> {{user.city}}</span>,
+							<br>
+							<span class="mb-1 d-inline-block"><strong>State:</strong> {{user.state}}</span>,
+							<br>
+							<span class="mb-1 d-inline-block"><strong>ZIP:</strong> {{user.zipcode}}</span>,
+							<br>
+							<span><strong>Country:</strong> {{user.country}}</span>
+						</address>
+					</div>
+					<div class="tab-pane fade" id="account-details">
+						<h3>Account details </h3>
+						{% if success %}
+						<div class="alert alert-success" role="alert">
+							{{success}}
+						</div>
+						{% endif %}
+						{% if not user.first_name %}
+						<div class="card-body">
+							<form action="{% url 'account' %}" method="POST" enctype="multipart/form-data">
+								{% csrf_token %}
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">Firstname *</label>
+											<input type="text" name="fname" class="form-control" required>
+
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">Lastname *</label>
+											<input type="text" name="lname" class="form-control" required>
+
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">Email *</label>
+											<input type="text" name="uemail" value={{user.email}} readonly="true"
+												class="form-control" required>
+
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="lable">Mobile No *</label>
+											<input type="text" name="phone" class="form-control" required>
+
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="lable">Age *</label>
+											<input type="text" name="age" class="form-control" required>
+
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">Landmark *</label>
+											<input type="text" name="landmark" class="form-control">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">Area *</label>
+											<input type="text" name="area" class="form-control">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">City *</label>
+											<input type="text" name="city" class="form-control">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">State *</label>
+											<input type="text" name="state" class="form-control">
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="lable">Profile Image</label>
+											<input type="file" class="form-control image-file" name="profilepic">
+										</div>
+									</div>
+								</div>
+								<button type="submit" class="profile-button" style="margin-top :10px;">Save
+									Details</button>
+							</form>
+						</div>
+						{% else %}
+						<div class="card-body">
+							<form action="{% url 'account' %}" method="POST" enctype="multipart/form-data">
+								{% csrf_token %}
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">Firstname *</label>
+											<input type="text" name="fname" value="{{user.first_name}}"
+												class="form-control" required>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">Lastname *</label>
+											<input type="text" name="lname" value="{{user.last_name}}"
+												class="form-control" required>
+
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">Email *</label>
+											<input type="text" name="uemail" value="{{user.email}}" readonly="true"
+												class="form-control" required>
+
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="lable">Mobile No *</label>
+											<input type="text" name="phone" value="{{user.mobile_number}}"
+												class="form-control" required>
+
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label class="lable">Age *</label>
+											<input type="text" name="age" value="{{user.age}}" class="form-control"
+												required>
+
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">Landmark *</label>
+											<input type="text" name="landmark" value="{{user.landmark}}"
+												class="form-control">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">Area *</label>
+											<input type="text" name="area" value="{{user.area}}" class="form-control">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">City *</label>
+											<input type="text" name="city" value="{{user.city}}" class="form-control">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">State *</label>
+											<input type="text" name="state" value="{{user.state}}" class="form-control">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">Zip Code *</label>
+											<input type="text" name="zipcode" value="{{user.zipcode}}"
+												class="form-control">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label class="lable">Country *</label>
+											<input type="text" name="country" value="{{user.country}}"
+												class="form-control">
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="lable">Profile Image</label>
+											<input type="file" class="form-control image-file" name="profilepic">
+										</div>
+										<img src="{{user.profile_pic.url}}" width="150">
+									</div>
+								</div>
+								<button type="submit" class="profile-button" style="margin-top :10px;">Save
+									Details</button>
+							</form>
+						</div>
+						{% endif %}
+					</div>
+					<div class="tab-pane fade" id="change-password">
+						<div class="login-form-container">
+							<div class="login-register-form">
+								<form action="{% url 'change-password' %}" method="POST">
+									{% csrf_token %}
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="floating-label form-group">
+												<b class="lable">Old password<span class="lable">*</span></b>
+												<input type="password" name='oldpass' required="required"
+													class="form-control">
+											</div>
+										</div>
+										<div class="col-lg-12">
+											<div class="floating-label form-group">
+												<b class="lable">Create a new password<span class="lable">*</span></b>
+												<input type="password" name='newpass' required="required"
+													class="form-control">
+											</div>
+										</div>
+										<div class="col-lg-12">
+											<div class="floating-label form-group">
+												<b class="lable">Re-type a new password<span class="lable">*</span></b>
+												<input type="password" name='retypepass' required="required"
+													class="form-control">
+											</div>
+										</div>
+									</div>
+									<button type="submit" class="profile-button" style="margin-top :10px;">Change
+										Password</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,144 @@
+{% extends 'adminPanel/adminHome.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header" style="margin-top: 100px;">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>View Customer's Profile</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'adminhome' %}">Home</a></li>
+                        <li class="breadcrumb-item active">Customer's Profile</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+
+
+                </div>
+                <!-- /.col -->
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item"><a class="nav-link active" href="#personal_details"
+                                        data-toggle="tab">Personal Details</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#orders" data-toggle="tab">List of
+                                        Orders</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#feedback" data-toggle="tab">Feedback</a>
+                                </li>
+                            </ul>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="personal_details">
+                                    <ul class="list-group list-group-unbordered mb-3">
+                                        <li class="list-group-item">
+                                            <b>Name</b> <a
+                                                class="float-right">{{cid.first_name}}&nbsp;{{cid.last_name}}</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Email ID</b> <a class="float-right">{{cid.email}}</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Phone Number</b> <a class="float-right">{{cid.mobile_number}}</a>
+                                        </li>
+                                        <!-- <li class="list-group-item">
+                          <b>Gender</b> <a class="float-right">{{cid.gender}}</a>
+                        </li> -->
+
+                                        <!-- <li class="list-group-item">
+                          <b>Date Of Account Created</b> <a class="float-right">{{cid.user_id.created_at}}</a>
+                        </li> -->
+                                        <li class="list-group-item">
+                                            <b>Address</b> <a
+                                                class="float-right">{{cid.landmark}},<br>{{cid.area}},<br>{{cid.city}},<br>{{cid.state}},<br>{{cid.zipcode}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane" id="orders">
+                                    <table class="table table-striped projects">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 1%" class="text-center">
+                                                    Order id
+                                                </th>
+                                                <th style="width: 30%" class="text-center">
+                                                    Product Name
+                                                </th>
+                                                <th style="width: 15%" class="text-center">
+                                                    Quantity
+                                                </th>
+                                                <th style="width: 8%" class="text-center">
+                                                    Price
+                                                </th>
+                                                <th style="width: 20%" class="text-center">
+                                                    Customer id
+                                                </th>
+                                                <th style="width: 30%" class="text-center">
+                                                    Customer Name
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in ct.orders %}
+                                            <tr>
+                                                <td class="text-center">
+                                                    {{i.order_id}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{i.product_id.product_name}}
+                                                    <br />
+                                                </td>
+                                                <td class="text-center">
+                                                    {{i.product_id.product_quantity}}
+
+                                                </td>
+                                                <td class="text-center">
+                                                    {{i.product_id.product_price}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{i.date_of_order}}
+                                                </td>
+                                                <td class="text-center">
+                                                    <a
+                                                        href="#">{{i.retailer_id}}</a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        
+                                    </table>
+                                </div>
+                                <div class="tab-pane" id="feedback">
+
+                                </div>
+
+                            </div>
+                            <!-- /.tab-content -->
+                        </div><!-- /.card-body -->
+                    </div>
+                    <!-- /.nav-tabs-custom -->
+                </div>
+
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+
+{% endblock content %}

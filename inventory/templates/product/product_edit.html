@@ -1,0 +1,153 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<div class="content-page">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success ">
+        <strong>Success!</strong> {{message}}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background-color: #fff !important;">
+           <li class="breadcrumb-item"><a href="{% url 'index' %}"><i class="ri-home-4-line mr-1 float-left"></i>Home</a></li>
+           <li class="breadcrumb-item"><a href="#"><i class="mr-1 float-left"></i>Products</a></li>
+           <li class="breadcrumb-item"><a href="#"></a><i class=" mr-1 float-left"></i>{{product.product_name}}</a></li>
+        </ol>
+     </nav>
+    <div class="container-fluid add-form-list">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">{{product.product_name}}</h4>
+                        </div>
+                    </div>
+                    {% if not product.product_name %}
+                    <div class="card-body">
+                        <form action="{% url 'product_edit' pk=product.id %}" method="POST"
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name *</label>
+                                        <input type="text" name="product_name" class="form-control"
+                                            placeholder="Enter Name" data-errors="Please Enter Name." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Product Category *</label>
+                                        <select name="product_cat" class="form-control">
+                                            <option>Select Your Category</option>
+                                            {% for cat in categories %}
+                                            <option>{{cat.category_name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Price *</label>
+                                        <input type="text" name="price" class="form-control" placeholder="Enter Price"
+                                            data-errors="Please Enter Price." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Quantity *</label>
+                                        <input type="text" name="qty" class="form-control" placeholder="Enter Quantity"
+                                            required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Image</label>
+                                        <input type="file" class="form-control image-file" name="product_pic"
+                                            accept="image/*">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Description / Product Details</label>
+                                        <textarea class="form-control" name="desc" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mr-2">Save Product</button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="card-body">
+                        <form action="{% url 'product_edit' pk=product.id %}" method="POST"
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name *</label>
+                                        <input type="text" name="product_name" value="{{product.product_name}}"
+                                            class="form-control" placeholder="Enter Name"
+                                            data-errors="Please Enter Name." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Product Category *</label>
+                                        <select name="product_cat" class="form-control">
+                                            <option>{{product.c_id}}</option>
+                                            <!-- {% for cat in categories %}
+                                            <option>{{cat.category_name}}</option>
+                                            {% endfor %} -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Price *</label>
+                                        <input type="text" name="price" value="{{product.price}}" class="form-control"
+                                            placeholder="Enter Price" data-errors="Please Enter Price." required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Quantity *</label>
+                                        <input type="text" name="qty" value="{{product.qty}}" class="form-control"
+                                            placeholder="Enter Quantity" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Image</label>
+                                        <input type="file" class="form-control image-file" name="product_pic"
+                                            accept="image/*">
+                                        <img src="{{product.product_pic.url}}" height="150" width="150">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Description / Product Details</label>
+                                        <textarea class="form-control" name="desc" rows="4">{{product.desc}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mr-2">Save Product</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- Page end  -->
+    </div>
+</div>
+{% endblock content %}

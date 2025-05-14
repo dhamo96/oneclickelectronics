@@ -1,0 +1,102 @@
+{% extends 'adminPanel/adminHome.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header" style="margin-top: 100px;">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>View All Shops Notifications</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'adminhome' %}">Home</a></li>
+                        <li class="breadcrumb-item active">Shops Notifications</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Shops</h3>
+
+                
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-bordered">
+                    <thead class='bg-dark text-uppercase text-center'>
+                        <tr>
+                            <th scope="col">
+                                ID
+                            </th>
+                            <th scope="col">
+                                Shop Name
+                            </th>
+                            <th scope="col">
+                                Owner Name
+                            </th>
+                            <th scope="col">
+                                Contact number
+                            </th>
+                            <th scope="col">
+                                Address
+                            </th>
+
+                            <th scope="col">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class='text-center'>
+                        {% for i in sid %}
+                        <tr>
+                            <td>
+                                {{i.id}}
+                            </td>
+                            <td >
+                                {{i.shop_name}}
+                            </td>
+                            <td >
+                               {{i.owner_id.adminName}} {{i.owner_id.adminLastName}} 
+                            </td>
+                            <td>
+                                {{i.owner_id.adminPhone}}
+                            </td>
+                            <td >
+                                {{i.shop_address}} ,<br />{{i.shop_city}} ,<br />{{i.shop_state}}
+                                ,<br />{{i.shop_pincode}}
+                            </td>
+                            <td >
+                                <a class="btn btn-primary btn-sm" href="{% url 'admin_notification_shop_view' pk=i.owner_id.id %}">
+                                    <i class="fas fa-folder">
+                                    </i>
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% endblock %}

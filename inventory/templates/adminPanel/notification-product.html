@@ -1,0 +1,77 @@
+{% extends 'adminPanel/adminHome.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header" style="margin-top: 100px;">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>View All Product Notifications</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{% url 'adminhome' %}">Home</a></li>
+                        <li class="breadcrumb-item active">Products</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-body p-0">
+                <table class="table table-bordered">
+                    <thead class='bg-dark text-uppercase text-center'>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Product Image</th>
+                            <th scope="col-2" colspan="2">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class='text-center'>
+                        {% for i in pid %}
+                        <tr>
+                            <td>{{i.product_name}}</td>
+                            <td>{{i.price}}</td>
+                            <td>{{i.c_id}}</td>
+                            <td>{{i.qty}}</td>
+                            {% if i.product_pic %}
+                            <td><img src="{{i.product_pic.url}} " height="100" width="100"></td>
+                            {% else %}
+                            <td><img src="{% static 'assets/images/placeholder.png' %}" alt="Sorry" height="100"
+                                    width="100"></td>
+                            {% endif %}
+                            <td>
+                                <div class="d-flex align-items-center list-action">
+                                    <a href="{% url 'admin_view_product' pk=i.id %}" title="View Product"><img
+                                            src="{% static 'assets/view.jpg' %}" height="25" width="25"></a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+{% endblock %}

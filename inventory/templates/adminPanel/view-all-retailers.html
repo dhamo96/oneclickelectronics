@@ -1,0 +1,81 @@
+{% extends 'adminPanel/adminHome.html' %}
+{% load static %}
+{% block content %}
+<div class="content-page">
+    <div class="container-fluid">
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-success ">
+        <strong>Success!</strong> {{message}}
+      </div>
+      {% endfor %}
+      {% endif %}
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background-color: #fff !important;">
+          <li class="breadcrumb-item"><a href="{% url 'adminhome' %}"><i class="ri-home-4-line mr-1 float-left"></i>Home</a>
+          </li>
+          <li class="breadcrumb-item"><i class="mr-1 float-left"></i>Retailers</li>
+        </ol>
+      </nav>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
+            <div>
+              <h4 class="mb-3">Retailers List</h4>
+            </div>
+          </div>
+        </div>
+        {% if 'adminEmail' in request.session %}
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="table-responsive rounded mb-3">
+            <table class="table table-bordered">
+              <thead class="bg-dark text-uppercase text-center">
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email Id</th>
+                  <th scope="col">Phone Number</th>
+                  <th scope="col">Profile Image</th>
+                  <th scope="col-2" colspan="2">Action</th>
+                </tr>
+              </thead>
+              <tbody class="ligth-body text-center">
+                {% for i in ct.retailers %}
+                <tr>
+                  <td>{{i.id}}</td>
+                  <td>{{i.adminName}} {{i.adminLastName}}</td>
+                  <td>{{i.adminEmail}}</td>
+                  <td>{{i.adminPhone}}</td>
+                  {% if i.adminProfile_pic %}
+                  <td><img src="{{i.adminProfile_pic.url}} " height="100" width="100"></td>
+                  {% else %}
+                  <td><img src="{% static 'assets/images/placeholder.png' %}" alt="Sorry" height="100" width="100"></td>
+                  {% endif %}
+                  <td>
+                    <div class="d-flex align-items-center list-action">
+                      <a href="{% url 'admin_retailer_view_profile' pk=i.id %}" title="View Retailer"><img src="{% static 'assets/view.jpg' %}" height="25" width="25"></a>
+                      <a href="{% url 'admin_delete_retailer' pk=i.id %}" title="Delete Product"
+                        style="margin: 0 0 0 20px;"><img src="{% static 'assets/delete.png' %}" height="25" width="25"></a>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {% endif %}
+  
+      </div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination float-right">
+          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+{% endblock %}

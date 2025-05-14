@@ -1,0 +1,54 @@
+{% extends 'adminPanel/adminHome.html' %}
+{% load static %}
+{% block content %}
+<div class="content-page">
+    <div class="container-fluid add-form-list">
+        <div class="row">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" style="background-color: #fff !important;">
+                    <li class="breadcrumb-item"><a href="{% url 'adminhome' %}"><i class="ri-home-4-line mr-1 float-left"></i>Home</a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="{% url 'admin_view_all_products' %}"><i class="mr-1 float-left"></i>Products</li></a>
+                    <li class="breadcrumb-item"><i class=" mr-1 float-left"></i>{{pid.product_name}}</a></li>
+                </ol>
+            </nav>
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">{{pid.product_name}}</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    {% if pid.product_pic %}
+                                    <img src="{{pid.product_pic.url}}" width="250" height="250" />
+                                    {% else %}
+                                    <img src="{% static 'assets/images/placeholder.png' %}" alt="" class="primary"
+                                        width="250" height="250" />
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h3>{{pid.product_name}}</h3>
+                                <span><img src="{% static 'assets/images/rupee.png' %}"
+                                        width="20"></span>{{pid.price}}
+
+                                <div class="row desc" style="margin-top: 20px;">
+                                    <div class="col-md-12">
+                                        <h4>Product Description</h4>
+                                        <p style="margin-top: 0px;">{{pid.desc}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page end  -->
+    </div>
+</div>
+{% endblock content %}
