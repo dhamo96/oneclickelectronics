@@ -6,12 +6,12 @@
     }],
     "routes": [
         {
-            "src": "/electro/static/(.*)",
-            "dest": "/oneclickelectronics/electro/static/$1"
+            "src": "/electro/static/asset/(.*)",
+            "dest": "/oneclickelectronics/electro/static/asset$1"
         },
         {
-            "src": "/inventory/static/(.*)",
-            "dest": "/oneclickelectronics/inventory/static/$1"
+            "src": "/inventory/static/assets/(.*)",
+            "dest": "/oneclickelectronics/inventory/static/assets$1"
         },
         {
             "src": "/(.*)",
