@@ -20,7 +20,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('oneclickelectronics/',include('electro.urls')),
+    path('',include('electro.urls')),
     path('inventory/',include('inventory.urls')),
 ]
 
