@@ -6,8 +6,12 @@
     }],
     "routes": [
         {
-            "src": "/static/(.*)",
-            "dest": "/static/$1"
+            "src": "/electro/static/(.*)",
+            "dest": "/oneclickelectronics/electro/static/$1"
+        },
+        {
+            "src": "/inventory/static/(.*)",
+            "dest": "/oneclickelectronics/inventory/static/$1"
         },
         {
             "src": "/(.*)",
