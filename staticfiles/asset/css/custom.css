@@ -1,0 +1,35 @@
+.logo{
+	color: #fff;
+    text-transform: uppercase;
+    font-size: 35px;
+    letter-spacing: 2px;
+}
+a.my-account{
+    justify-content: center !important;
+    color: #2d2d2d !important;
+}
+a.my-account:hover{
+    color: #266bf9 !important;
+}
+
+.profile-button{
+  background-color: #f2f2f2;
+  border: medium none;
+  color: #000;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 11px 30px;
+  text-transform: uppercase;
+  -webkit-transition: all .3s ease 0s;
+  transition: all .3s ease 0s;
+  outline: 0;
+  border-radius: 0;
+  font-family: Poppins,sans-serif;
+}
+.profile-button:hover{
+  background-color: #266bf9;
+  color: #fff;
+}
+
